@@ -262,7 +262,7 @@ SUBARCH := $(shell uname -m | sed -e s/i.86/i386/ | sed -e s/ppc/powerpc/ | sed 
 ARCH ?= $(SUBARCH)
 CROSS_COMPILE ?=
 KVER  := $(shell uname -r)
-KSRC := /lib/modules/$(KVER)/build
+KSRC := $(KERNEL_SRC)
 INSTALL_PREFIX :=
 endif
 
@@ -343,7 +343,7 @@ endif
 	install rtl8723b_fw.bin -D $(FW_DIR)/rtl8723b_fw.bin
 
 modules_install:
-	$(MAKE) INSTALL_MOD_DIR=$(MODDESTDIR) -C $(KSRC) M=$(shell pwd) modules_install
+	$(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) INSTALL_MOD_DIR=$(MODDESTDIR) -C $(KSRC) M=$(shell pwd) modules_install
 
 uninstall:
 	rm -f /lib/modules/$(KVER)/$(MODDESTDIR)$(MODULE_NAME).ko
